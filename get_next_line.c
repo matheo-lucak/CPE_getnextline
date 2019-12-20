@@ -61,7 +61,7 @@ char *add_in_buffer(int fd, char *buffer, int *rd)
 {
     char stock[READ_SIZE + 1];
 
-    if (stock == NULL)
+    if (stock == NULL || buffer == NULL)
         return (NULL);
     while (!is_end_of_line(buffer) && *rd != 0) {
         *rd = read(fd, stock, READ_SIZE);
@@ -78,7 +78,7 @@ char *get_next_line(int fd)
     static char *buffer = NULL;
     char * line = NULL;
     int i = -1;
-    int rd = -1;
+    int rd = 1;
 
     if (fd == -1)
         return (NULL);
