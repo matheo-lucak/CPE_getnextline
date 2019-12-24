@@ -7,14 +7,20 @@
 
 #include "get_next_line.h"
 
-int is_end_of_line(char *buffer)
+int is_end_of_line(char **buffer, int mode)
 {
     int i = 0;
 
-    while (buffer[i] != '\0') {
-        if (buffer[i] == '\n')
+    while (mode == 0 && (*buffer)[i] != '\0') {
+        if ((*buffer)[i] == '\n')
             return (1);
         i++;
+    }
+    if (*buffer == NULL && mode == 1) {
+        *buffer = malloc(sizeof(char) * (READ_SIZE + 1));
+        if (*buffer == NULL)
+            return (84);
+        (*buffer)[0] = '\0';
     }
     return (0);
 }
@@ -63,7 +69,7 @@ char *add_in_buffer(int fd, char *buffer, int *rd)
 
     if (stock == NULL || buffer == NULL)
         return (NULL);
-    while (!is_end_of_line(buffer) && *rd != 0) {
+    while (!is_end_of_line(&buffer, 0) && *rd != 0) {
         *rd = read(fd, stock, READ_SIZE);
         if (*rd == -1)
             return (NULL);
@@ -82,10 +88,8 @@ char *get_next_line(int fd)
 
     if (fd == -1)
         return (NULL);
-    if (buffer == NULL) {
-        buffer = malloc(sizeof(char) * (READ_SIZE + 1));
-        buffer[0] = '\0';
-    }
+    if (is_end_of_line(&buffer, 1) == 84)
+        return (NULL);
     buffer = add_in_buffer(fd, buffer, &rd);
     if (buffer == NULL || (buffer[0] == '\0' && rd == 0))
         return (NULL);
