@@ -22,7 +22,6 @@ all:			fclean $(NAME)
 
 $(NAME):		$(OBJ)
 				$(CC) -o $(NAME) $(OBJ) $(LDLIBS)
-				mv $(NAME) ./../
 clean:
 				rm -f $(OBJ)
 				rm -f *.gc*
@@ -30,7 +29,6 @@ clean:
 
 fclean: 		clean
 				rm -f $(NAME)
-				rm -f ./../$(NAME)
 
 re:				fclean all
 

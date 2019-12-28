@@ -13,15 +13,24 @@
 
 char *get_next_line(int fd);
 
-Test(gnl, incorrect_file)
-{
-    int fd = open("tests/map", O_RDONLY);
-    char *got = get_next_line(fd);
-    char *expected = " J'ai plus de souvenirs que si j'avais mille ans.";
+int fd = -1;
 
-    if (fd == -1)
-        return ;
-    cr_assert_str_eq(got, expected);
-    if (fd != -1)
+void open_file(void)
+{
+    fd = open("tests/map", O_RDONLY);
+    cr_redirect_stdout();
+}
+
+void close_file(void)
+{
+    if (fd != 1)
         close(fd);
+}
+
+Test(gnl, read_a_line, .init = open_file, .fini = close_file)
+{
+    char *expected = " J'ai plus de souvenirs que si j'avais mille ans.";
+    char *got = get_next_line(fd);
+
+    cr_assert_str_eq(got, expected);
 }

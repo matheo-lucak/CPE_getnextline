@@ -7,7 +7,7 @@
 
 tests_run:
 	make -C ./tests/
-	./unit_tests
+	./tests/unit_tests
 
 clean:
 	rm -f *.o
