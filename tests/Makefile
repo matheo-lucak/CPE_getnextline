@@ -7,8 +7,8 @@
 
 CC      	=	gcc
 
-SRC     	=	../get_next_line.c	\
-				test_gnl.c
+SRC     	=	test_gnl.c	\
+				../get_next_line.c	\
 
 OBJ			=	$(SRC:.c=.o)
 
