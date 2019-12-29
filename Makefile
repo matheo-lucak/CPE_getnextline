@@ -2,20 +2,34 @@
 ## EPITECH PROJECT, 2019
 ## Makefile
 ## File description:
-## rtfm
+## make file for test run
 ##
 
-tests_run:
-	make -C ./tests/
-	./tests/unit_tests
+CC      	=	gcc
 
+SRC     	=	./tests/test_gnl.c	\
+				get_next_line.c
+
+NAME		=	./unit_tests
+
+CFLAGS		=	--coverage -I./
+
+LDLIBS		=	-lcriterion -lgcov
+
+all:			fclean $(NAME)
+
+$(NAME):
+				$(CC) -o $(NAME) $(SRC) $(LDLIBS) $(CFLAGS)
+				./$(NAME)
+				mv test*.gc* ./tests
 clean:
-	rm -f *.o
-	make clean -C ./tests/
+				rm -f $(OBJ)
 
-fclean: clean
-	make fclean -C ./tests
+fclean: 		clean
+				rm -f $(NAME)
+				rm -f *.gc*
+				rm -f ./tests/*.gc*
 
-re:	fclean all
+re:				fclean all
 
-.PHONY:	$(NAME) all clean fclean
+.PHONY:			$(NAME) all clean fclean re
